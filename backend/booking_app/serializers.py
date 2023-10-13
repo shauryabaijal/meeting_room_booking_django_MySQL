@@ -1,6 +1,16 @@
 from rest_framework import serializers
 from .models import User,MeetingRoom,Booking
+from django.contrib.auth import get_user_model
+from djoser.serializers import UserCreateSerializer
 
+
+User = get_user_model()
+
+
+class CreateUserSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ['id', 'email', 'first_name', 'last_name', 'password']
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -11,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class MeetingRoomSerializer(serializers.ModelSerializer):
 
-    class Meta:
+    class Meta():
         model = MeetingRoom
         fields = ('id', 'capacity', 'location', 'description')
 
@@ -19,6 +29,6 @@ class BookingSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False,read_only=True)
     room = MeetingRoomSerializer(many=False,read_only=True)
 
-    class Meta:
+    class Meta():
         model = Booking
         fields = ('id', 'user', 'room', 'start_time','end_time','purpose')

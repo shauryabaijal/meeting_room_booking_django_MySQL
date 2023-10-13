@@ -7,10 +7,10 @@ from django.utils.translation import gettext_lazy as _
 class CustomUserManager(BaseUserManager):
 
     def email_validator(self, email):
-        sec = str(email).split('@')[1]
+        sec = email.split('@')[1]
         allowed_hosts = ["clovia.com","purplepanda.in"]
         if(sec not in allowed_hosts):
-            raise ValidationError(_("%(domain) is not an even number"),params={"domain":sec})
+            raise ValidationError((f"{sec} is not proper"))
         try:
             validate_email(email)
         except ValidationError:

@@ -1,19 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser,PermissionsMixin
+from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 # Create your models here.
 class User(AbstractUser,PermissionsMixin):
     '''
     User Model
     '''
-    first_name = models.CharField('First Name',max_length=20,blank=False)
-    last_name = models.CharField('Last Name',max_length=20,blank=False)
-    email_id = models.EmailField('Email',max_length=22,blank=False)
+    first_name = models.CharField('First Name',max_length=20)
+    last_name = models.CharField('Last Name',max_length=20)
+    email = models.EmailField('Email Address',max_length=22,unique=True)
     is_admin = models.BooleanField(default=False)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ['first_name','last_name']
+
     objects = CustomUserManager()
     def _str_(self):
         return self.first_name +' '+  self.last_name
     
+    class Meta:
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
 
 class MeetingRoom(models.Model):
     '''

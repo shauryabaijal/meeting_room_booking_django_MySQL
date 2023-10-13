@@ -21,6 +21,8 @@ from booking_app import views,urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/v1/auth/",include('djoser.urls')),
+    path("api/v1/auth/",include('djoser.urls.jwt')),
     path('users/', include('django.contrib.auth.urls')),
     path('booking/',include('booking_app.urls'))
 ]
