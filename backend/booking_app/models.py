@@ -1,16 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
-
+from django.contrib.auth.models import AbstractUser,PermissionsMixin
+from .managers import CustomUserManager
 # Create your models here.
-class User(AbstractUser):
+class User(AbstractUser,PermissionsMixin):
     '''
     User Model
     '''
     first_name = models.CharField('First Name',max_length=20,blank=False)
     last_name = models.CharField('Last Name',max_length=20,blank=False)
     email_id = models.EmailField('Email',max_length=22,blank=False)
-
+    is_admin = models.BooleanField(default=False)
+    objects = CustomUserManager()
     def _str_(self):
         return self.first_name +' '+  self.last_name
     
