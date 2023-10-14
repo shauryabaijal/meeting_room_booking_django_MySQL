@@ -40,20 +40,28 @@ class CustomUserManager(BaseUserManager):
         )
 
         user.set_password(password)
-        extra_fields.setdefault("is_admin", False)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_superuser", False)
 
         user.save()
 
         return user
     
-    def create_admin(self, first_name, last_name, email, password, **extra_fields):
-        extra_fields.setdefault("is_admin", True)
+    def create_superuser(self, first_name, last_name, email, password, **extra_fields):
 
-        if extra_fields.get("is_admin") is not True:
-            raise ValueError(_("Admins must have is_admin=True"))
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
+
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(_("Superusers must have is_superuser=True"))
+        
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError(_("Superusers must have is_staff=True"))
         
         if not password:
-            raise ValueError(_("Admins must have a password"))
+            raise ValueError(_("Superusers must have a password"))
 
         if email:
             email = self.normalize_email(email)
@@ -67,3 +75,4 @@ class CustomUserManager(BaseUserManager):
         user.save()   
 
         return user
+
