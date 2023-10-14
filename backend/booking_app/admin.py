@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import User
+from .models import User, MeetingRoom, Booking
 
 # Register your models here.
 
@@ -47,5 +47,13 @@ class UserAdmin(BaseUserAdmin):
             },),
         )
 
+class MeetingRoomAdmin(admin.ModelAdmin):
+    list_display = ('name', 'capacity', 'location')
+
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'room','start_time','end_time')
 
 admin.site.register(User, UserAdmin)
+admin.site.register(MeetingRoom, MeetingRoomAdmin)
+admin.site.register(Booking, BookingAdmin)
