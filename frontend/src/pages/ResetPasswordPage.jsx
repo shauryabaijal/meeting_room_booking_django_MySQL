@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { BiLogInCircle } from "react-icons/bi"
-import Spinner from "./django-react-redux-authentication-main/frontend/src/components/Spinner"
+import Spinner from '../components/Spinner'
 import { resetPassword } from "../features/auth/authSlice"
 
 const LoginPage = () => {

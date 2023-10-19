@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { activate, reset } from '../features/auth/authSlice'
 import { toast } from 'react-toastify'
-import Spinner from './django-react-redux-authentication-main/frontend/src/components/Spinner'
+import Spinner from '../components/Spinner'
 
 const ActivatePage = () => {
 

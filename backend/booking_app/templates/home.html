@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6 offset-md-3">
+{% if user.is_authenticated %}
+<h1>Hello {{ user.first_name }}</h1>
+<a href="{% url 'add_record' %}"><button type="button" class="btn btn-primary btn-lg">Add a meeting room</button></a>
+<button type="button" class="btn btn-secondary btn-lg">Create a booking</button>
+<br>
+<br>
+<h2>Booking made by you </h2>
+<table class="table table-striped table-hover table-bordered">
+    <br>
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">User</th>
+        <th scope="col">Room</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Purpose</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+  {% if records %}
+      {% for record in records %}
+          <tr>
+              <td>{{ record.user.first_name }} {{ record.user.last_name }}</td>
+              <td>{{ record.room }}</td>
+              <td>{{ record.start_time }}</td>
+              <td>{{ record.end_time }}</td>
+              <td>{{ record.purpose }}</td>
+              <td><a href="{% url 'booking_record' record.id %}">{{ record.id }}</td>
+          </tr>
+      {% endfor %}
+  
+  {% endif %}
+{% else %}
+<h1>Login</h1>
+
+<br>
+<form action="{% url 'home' %}" method="POST">
+    {% csrf_token %}
+    <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="text" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" required>
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Keep Me Logged In</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+{% endif %}
+</div>
+{% endblock %}
